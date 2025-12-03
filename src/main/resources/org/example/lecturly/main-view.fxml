@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.lecturly.MainController"
+            style="-fx-background-color: #000000; -fx-font-family: 'Barlow', '-apple-system', 'Segoe UI', 'Roboto', sans-serif;">
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox style="-fx-background-color: #0f0f0f; -fx-border-color: #1a1a1a; -fx-border-width: 0 1 0 0;" prefWidth="250">
+            <padding>
+                <Insets top="24" right="16" bottom="24" left="16"/>
+            </padding>
+            <spacing>32</spacing>
+
+            <!-- Logo/Branding -->
+            <VBox alignment="TOP_CENTER">
+                <spacing>8</spacing>
+                <Label text="🎬 LECTURLY" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #e50914;"/>
+                <Label text="Lecture Intelligence" style="-fx-font-size: 10; -fx-text-fill: #808080;"/>
+            </VBox>
+
+            <!-- Navigation -->
+            <VBox spacing="12">
+                <Label text="VIEWS" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #808080; -fx-padding: 0 0 8 0;"/>
+                
+                <Button fx:id="chatNavButton" text="💬 Chat" style="-fx-padding: 12 16 12 16; -fx-font-size: 14; -fx-text-fill: #ffffff; -fx-background-color: #e50914; -fx-font-weight: bold; -fx-background-radius: 4; -fx-border-radius: 4; -fx-cursor: hand;" onAction="#onChatNavClick" maxWidth="Infinity"/>
+                
+                <Button fx:id="notesNavButton" text="📝 Notes" style="-fx-padding: 12 16 12 16; -fx-font-size: 14; -fx-text-fill: #cccccc; -fx-background-color: transparent; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand;" onAction="#onNotesNavClick" maxWidth="Infinity"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Footer -->
+            <VBox spacing="8" alignment="BOTTOM_CENTER">
+                <Separator style="-fx-padding: 0; -fx-background-color: #1a1a1a;"/>
+                <Label text="Powered by Gemini 2.5" style="-fx-font-size: 9; -fx-text-fill: #666666;"/>
+                <Label text="Flask" style="-fx-font-size: 9; -fx-text-fill: #666666;"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentStackPane" style="-fx-background-color: #0a0a0a;">
+            <!-- Chat View -->
+            <VBox fx:id="chatView" style="-fx-background-color: #0a0a0a;" VBox.vgrow="ALWAYS">
+                <BorderPane.margin>
+                    <Insets top="0" right="0" bottom="0" left="0"/>
+                </BorderPane.margin>
+
+                <!-- Top: Header -->
+                <VBox style="-fx-background-color: #0a0a0a; -fx-border-color: #1a1a1a; -fx-border-width: 0 0 1 0;">
+                    <padding>
+                        <Insets top="16" right="24" bottom="16" left="24"/>
+                    </padding>
+                    <spacing>8</spacing>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Chat with Gemini 2.5 Flash" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
+                    </HBox>
+
+                    <!-- Connection Section -->
+                    <HBox spacing="8" style="-fx-padding: 12; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;">
+                        <TextField fx:id="apiKeyField" promptText="Enter your Gemini API key" style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-prompt-text-fill: #666666; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-family: 'Consolas', monospace;" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="connectButton" text="Connect" style="-fx-padding: 10 24 10 24; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onConnectClick"/>
+                    </HBox>
+
+                    <Label fx:id="statusLabel" text="Disconnected" style="-fx-font-size: 11; -fx-text-fill: #f85149;"/>
+                </VBox>
+
+                <!-- Messages Area -->
+                <ScrollPane fx:id="messagesScrollPane" style="-fx-background-color: #0a0a0a; -fx-control-inner-background: #0a0a0a; -fx-padding: 0; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;" fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="messagesContainer" spacing="16" style="-fx-padding: 24; -fx-background-color: #0a0a0a; -fx-min-height: 100%;" VBox.vgrow="ALWAYS">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- Bottom: Input -->
+                <VBox style="-fx-background-color: #0a0a0a; -fx-border-color: #1a1a1a; -fx-border-width: 1 0 0 0; -fx-padding: 16;">
+                    <spacing>12</spacing>
+
+                    <TextArea fx:id="inputArea" wrapText="true" style="-fx-padding: 12; -fx-font-size: 13; -fx-font-family: 'Segoe UI'; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-text-inner-color: #ffffff; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-prompt-text-fill: #666666; -fx-focus-color: #333333; -fx-faint-focus-color: #1a1a1a;" promptText="Type your message... (Shift+Enter for new line)" prefRowCount="3"/>
+
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button fx:id="clearButton" text="Clear" style="-fx-padding: 10 16 10 16; -fx-font-size: 12; -fx-background-color: #1a1a1a; -fx-text-fill: #cccccc; -fx-cursor: hand; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onClearClick"/>
+                        <Button fx:id="sendButton" text="Send" style="-fx-padding: 10 28 10 28; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onSendClick"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Notes View -->
+            <VBox fx:id="notesView" style="-fx-background-color: #000000; -fx-padding: 0;" visible="false">
+                <!-- Top: Header -->
+                <VBox style="-fx-background-color: #0a0a0a; -fx-border-color: #1a1a1a; -fx-border-width: 0 0 1 0;">
+                    <padding>
+                        <Insets top="16" right="24" bottom="16" left="24"/>
+                    </padding>
+                    <spacing>8</spacing>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label text="Lecture Notes Generator" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
+                    </HBox>
+
+                    <!-- API Key for notes -->
+                    <HBox spacing="8" style="-fx-padding: 12; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;">
+                        <TextField fx:id="notesApiKeyField" promptText="Enter your Gemini API key" style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-prompt-text-fill: #666666; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-family: 'Consolas', monospace;" HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="notesConnectButton" text="Connect" style="-fx-padding: 10 24 10 24; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onNotesConnectClick"/>
+                    </HBox>
+
+                    <Label fx:id="notesStatusLabel" text="Disconnected" style="-fx-font-size: 11; -fx-text-fill: #f85149;"/>
+                </VBox>
+
+                <!-- Content Area -->
+                <ScrollPane style="-fx-background-color: #000000; -fx-padding: 0;" fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+                    <VBox spacing="24" style="-fx-padding: 24;">
+                        <!-- Upload Section -->
+                        <VBox spacing="16" style="-fx-padding: 24; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8;">
+                            <Label text="Upload Lecture Audio" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
+                            <Label text="Supported formats: MP3, WAV, OGG, FLAC" style="-fx-font-size: 12; -fx-text-fill: #999999;"/>
+                            
+                            <HBox spacing="12" alignment="CENTER">
+                                <Button fx:id="browseFileButton" text="📁 Browse Files" style="-fx-padding: 12 24 12 24; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onBrowseFile"/>
+                                <Label fx:id="fileNameLabel" text="No file selected" style="-fx-font-size: 12; -fx-text-fill: #999999;"/>
+                            </HBox>
+
+                            <Button fx:id="uploadButton" text="🚀 Generate Notes" style="-fx-padding: 12 24 12 24; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onGenerateNotes" disable="true" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <!-- Loading Section -->
+                        <VBox fx:id="loadingBox" spacing="16" alignment="CENTER" style="-fx-padding: 48; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8;" visible="false">
+                            <ProgressIndicator fx:id="progressIndicator" progress="-1" prefWidth="60" prefHeight="60" style="-fx-padding: 0;"/>
+                            <Label fx:id="loadingLabel" text="Processing audio file with FastAPI backend..." style="-fx-font-size: 14; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow', 'Segoe UI';"/>
+                            <Label text="This may take a minute..." style="-fx-font-size: 11; -fx-text-fill: #999999;"/>
+                        </VBox>
+
+                        <!-- Output Section -->
+                        <VBox spacing="12">
+                            <Label text="Generated Notes" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff;"/>
+                            <TextArea fx:id="outputNotesArea" wrapText="true" style="-fx-padding: 16; -fx-font-size: 12; -fx-text-fill: #e6e6e6; -fx-control-inner-background: #0a0a0a; -fx-text-inner-color: #e6e6e6; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Segoe UI';" prefRowCount="15" editable="true"/>
+                            <Button fx:id="copyNotesButton" text="📋 Copy Notes" style="-fx-padding: 10 20 10 20; -fx-font-size: 12; -fx-background-color: #1a1a1a; -fx-text-fill: #e50914; -fx-cursor: hand; -fx-border-color: #e50914; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onCopyNotes"/>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </StackPane>
+    </center>
+
+</BorderPane>

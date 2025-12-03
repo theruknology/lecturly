@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.lecturly.ChatController"
+            style="-fx-background-color: #0d1117; -fx-font-family: 'Segoe UI';">
+
+    <!-- Top: Header with branding -->
+    <top>
+        <VBox style="-fx-background-color: #161b22; -fx-border-color: #30363d; -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </padding>
+            <spacing>8</spacing>
+
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="💬 Lecturly Chat" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #e6edf3;"/>
+                <Label text="Powered by Gemini 2.5 Flash" style="-fx-font-size: 11; -fx-text-fill: #8b949e;"/>
+            </HBox>
+
+            <!-- Connection Section -->
+            <HBox spacing="8" style="-fx-padding: 12; -fx-background-color: #0d1117; -fx-border-color: #30363d; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;">
+                <TextField fx:id="apiKeyField" promptText="Enter your Gemini API key" style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #e6edf3; -fx-control-inner-background: #0d1117; -fx-prompt-text-fill: #6e7681; -fx-border-color: #30363d; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4;" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="connectButton" text="Connect" style="-fx-padding: 10 24 10 24; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #238636; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onConnectClick"/>
+            </HBox>
+
+            <Label fx:id="statusLabel" text="Disconnected" style="-fx-font-size: 11; -fx-text-fill: #f85149;"/>
+        </VBox>
+    </top>
+
+    <!-- Center: Chat messages area -->
+    <center>
+        <ScrollPane fx:id="messagesScrollPane" style="-fx-background-color: #0d1117; -fx-padding: 0;"
+                    fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER">
+            <VBox fx:id="messagesContainer" spacing="12" style="-fx-padding: 16;">
+                <padding>
+                    <Insets top="8" right="8" bottom="8" left="8"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- Bottom: Input area -->
+    <bottom>
+        <VBox style="-fx-background-color: #161b22; -fx-border-color: #30363d; -fx-border-width: 1 0 0 0; -fx-padding: 16;">
+            <spacing>8</spacing>
+
+            <TextArea fx:id="inputArea" wrapText="true" style="-fx-padding: 12; -fx-font-size: 13; -fx-font-family: 'Segoe UI'; -fx-text-fill: #e6edf3; -fx-control-inner-background: #0d1117; -fx-text-inner-color: #e6edf3; -fx-border-color: #30363d; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-prompt-text-fill: #6e7681;" promptText="Type your message here... (Shift+Enter for new line)"/>
+
+            <HBox spacing="8" alignment="CENTER_RIGHT">
+                <Button fx:id="clearButton" text="Clear Chat" style="-fx-padding: 10 16 10 16; -fx-font-size: 12; -fx-background-color: #21262d; -fx-text-fill: #e6edf3; -fx-cursor: hand; -fx-border-color: #30363d; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onClearClick"/>
+                <Button fx:id="sendButton" text="Send" style="-fx-padding: 10 28 10 28; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #238636; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6;" onAction="#onSendClick"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
