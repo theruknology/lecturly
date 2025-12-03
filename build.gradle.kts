@@ -30,7 +30,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("org.example.lecturly")
-    mainClass.set("org.example.lecturly.HelloApplication")
+    mainClass.set("org.example.lecturly.Launcher")
 }
 
 javafx {

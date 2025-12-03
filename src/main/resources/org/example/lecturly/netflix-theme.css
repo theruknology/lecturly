@@ -1,0 +1,112 @@
+/* Netflix Theme Stylesheet */
+
+.root {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+    -fx-background-color: #000000;
+}
+
+/* Buttons */
+.button {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}
+
+.button:pressed {
+    -fx-opacity: 0.8;
+}
+
+/* Text Fields */
+.text-field, .text-area {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+}
+
+/* Labels */
+.label {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+}
+
+/* Scroll Panes */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: #141414;
+    -fx-pref-width: 12px;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: #141414;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #333333;
+    -fx-background-radius: 6px;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #404040;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: #141414;
+    -fx-pref-height: 12px;
+}
+
+.scroll-bar:horizontal .track {
+    -fx-background-color: #141414;
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #333333;
+    -fx-background-radius: 6px;
+}
+
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #404040;
+}
+
+/* Split Pane */
+.split-pane {
+    -fx-background-color: #000000;
+}
+
+.split-pane-divider {
+    -fx-background-color: #1a1a1a;
+    -fx-pref-width: 2px;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    -fx-progress-color: #e50914;
+}
+
+/* Alert Dialogs */
+.dialog-pane {
+    -fx-background-color: #141414;
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #141414;
+}
+
+.dialog-pane .content {
+    -fx-background-color: #141414;
+    -fx-text-fill: #ffffff;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #e50914;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #f40612;
+}
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="org.example.lecturly.DashboardController"
+            style="-fx-background-color: #000000;">
+    
+    <!-- Top Header -->
+    <top>
+        <HBox style="-fx-background-color: #141414; -fx-border-color: #1a1a1a; -fx-border-width: 0 0 1 0;" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="32" bottom="20" left="32"/>
+            </padding>
+            <spacing>16</spacing>
+            <Label text="LECTURLY" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #e50914; -fx-font-family: 'Barlow Condensed';"/>
+            <Label text="Notebooks" style="-fx-font-size: 20; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+        </HBox>
+    </top>
+    
+    <!-- Main Content -->
+    <center>
+        <VBox style="-fx-background-color: #000000;" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+            <spacing>24</spacing>
+            
+            <!-- Create Notebook Button -->
+            <Button fx:id="createNotebookButton" text="+ New Notebook" 
+                    style="-fx-padding: 16 32 16 32; -fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-background-color: #e50914; -fx-background-radius: 6; -fx-border-radius: 6; -fx-cursor: hand; -fx-font-family: 'Barlow Condensed';"
+                    onAction="#onCreateNotebook"/>
+            
+            <!-- Notebooks List -->
+            <ScrollPane fx:id="notebooksScrollPane" 
+                       style="-fx-background-color: #000000; -fx-control-inner-background: #000000; -fx-padding: 0; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;" 
+                       fitToWidth="true" 
+                       vbarPolicy="ALWAYS" 
+                       hbarPolicy="NEVER" 
+                       VBox.vgrow="ALWAYS">
+                <VBox fx:id="notebooksContainer" spacing="16" style="-fx-padding: 16;">
+                    <!-- Notebooks will be added here dynamically -->
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>
+

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="org.example.lecturly.NotebookController"
+            style="-fx-background-color: #000000;">
+    
+    <!-- Top Header -->
+    <top>
+        <HBox style="-fx-background-color: #141414; -fx-border-color: #1a1a1a; -fx-border-width: 0 0 1 0;" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="16" right="24" bottom="16" left="24"/>
+            </padding>
+            <spacing>16</spacing>
+            <Button fx:id="backButton" text="← Back to Dashboard" 
+                    style="-fx-padding: 8 16 8 16; -fx-font-size: 14; -fx-text-fill: #ffffff; -fx-background-color: #141414; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-cursor: hand; -fx-font-family: 'Barlow Condensed';"
+                    onAction="#onBackToDashboard"/>
+            <Label fx:id="notebookNameLabel" text="Notebook Name" 
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="saveButton" text="Save" 
+                    style="-fx-padding: 8 20 8 20; -fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-background-color: #e50914; -fx-background-radius: 4; -fx-border-radius: 4; -fx-cursor: hand; -fx-font-family: 'Barlow Condensed';"
+                    onAction="#onSave"/>
+        </HBox>
+    </top>
+    
+    <!-- Main Content - Split Pane -->
+    <center>
+        <SplitPane dividerPositions="0.5" style="-fx-background-color: #000000;">
+            <!-- Left Panel: Upload & Notes -->
+            <VBox style="-fx-background-color: #0a0a0a;" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="24" right="24" bottom="24" left="24"/>
+                </padding>
+                <spacing>16</spacing>
+                
+                <!-- Upload Section -->
+                <VBox spacing="12" style="-fx-padding: 20; -fx-background-color: #141414; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8;">
+                    <Label text="Upload Audio" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+                    <Label text="Supported: MP3, WAV, OGG, FLAC" style="-fx-font-size: 12; -fx-text-fill: #808080; -fx-font-family: 'Barlow Condensed';"/>
+                    
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Button fx:id="browseFileButton" text="📁 Browse Files" 
+                                style="-fx-padding: 10 20 10 20; -fx-font-size: 13; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
+                                onAction="#onBrowseFile"/>
+                        <Label fx:id="fileNameLabel" text="No file selected" 
+                               style="-fx-font-size: 12; -fx-text-fill: #808080; -fx-font-family: 'Barlow Condensed';"/>
+                    </HBox>
+                    
+                    <HBox spacing="8" style="-fx-padding: 12; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;">
+                        <TextField fx:id="apiKeyField" promptText="Enter Gemini API key" 
+                                   style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-prompt-text-fill: #666666; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-family: 'Barlow Condensed';" 
+                                   HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="connectButton" text="Connect" 
+                                style="-fx-padding: 10 20 10 20; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
+                                onAction="#onConnect"/>
+                    </HBox>
+                    
+                    <Label fx:id="statusLabel" text="Disconnected" 
+                           style="-fx-font-size: 11; -fx-text-fill: #f85149; -fx-font-family: 'Barlow Condensed';"/>
+                    
+                    <Button fx:id="uploadButton" text="🚀 Generate Notes" 
+                            style="-fx-padding: 12 24 12 24; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
+                            onAction="#onGenerateNotes" disable="true" maxWidth="Infinity"/>
+                </VBox>
+                
+                <!-- Loading Indicator -->
+                <VBox fx:id="loadingBox" spacing="12" alignment="CENTER" 
+                      style="-fx-padding: 24; -fx-background-color: #141414; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8;" 
+                      visible="false">
+                    <ProgressIndicator fx:id="progressIndicator" progress="-1" prefWidth="50" prefHeight="50"/>
+                    <Label fx:id="loadingLabel" text="Processing audio..." 
+                           style="-fx-font-size: 14; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+                </VBox>
+                
+                <!-- Notes Display -->
+                <VBox spacing="12" VBox.vgrow="ALWAYS">
+                    <Label text="Notes" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+                    <TextArea fx:id="notesArea" wrapText="true" 
+                              style="-fx-padding: 16; -fx-font-size: 13; -fx-text-fill: #e6e6e6; -fx-control-inner-background: #141414; -fx-text-inner-color: #e6e6e6; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';" 
+                              VBox.vgrow="ALWAYS" editable="true"/>
+                </VBox>
+            </VBox>
+            
+            <!-- Right Panel: Chat -->
+            <VBox style="-fx-background-color: #0a0a0a;" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="24" right="24" bottom="24" left="24"/>
+                </padding>
+                <spacing>16</spacing>
+                
+                <!-- Chat Header -->
+                <VBox spacing="8">
+                    <Label text="Chat with Notes" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
+                    <Label text="Ask questions about your notes" style="-fx-font-size: 12; -fx-text-fill: #808080; -fx-font-family: 'Barlow Condensed';"/>
+                </VBox>
+                
+                <!-- Messages Area -->
+                <ScrollPane fx:id="messagesScrollPane" 
+                           style="-fx-background-color: #0a0a0a; -fx-control-inner-background: #0a0a0a; -fx-padding: 0; -fx-focus-color: transparent; -fx-faint-focus-color: transparent;" 
+                           fitToWidth="true" 
+                           vbarPolicy="ALWAYS" 
+                           hbarPolicy="NEVER" 
+                           VBox.vgrow="ALWAYS">
+                    <VBox fx:id="messagesContainer" spacing="16" style="-fx-padding: 16;">
+                        <!-- Messages will be added here -->
+                    </VBox>
+                </ScrollPane>
+                
+                <!-- Input Area -->
+                <VBox spacing="8">
+                    <TextArea fx:id="inputArea" wrapText="true" 
+                              style="-fx-padding: 12; -fx-font-size: 13; -fx-font-family: 'Barlow Condensed'; -fx-text-fill: #ffffff; -fx-control-inner-background: #141414; -fx-text-inner-color: #ffffff; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-prompt-text-fill: #666666;" 
+                              promptText="Type your message... (Shift+Enter for new line)" prefRowCount="3"/>
+                    <HBox spacing="8" alignment="CENTER_RIGHT">
+                        <Button fx:id="clearButton" text="Clear" 
+                                style="-fx-padding: 10 16 10 16; -fx-font-size: 12; -fx-background-color: #141414; -fx-text-fill: #cccccc; -fx-cursor: hand; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
+                                onAction="#onClearChat"/>
+                        <Button fx:id="sendButton" text="Send" 
+                                style="-fx-padding: 10 28 10 28; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
+                                onAction="#onSendMessage"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>
+

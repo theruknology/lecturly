@@ -113,4 +113,36 @@ public class GeminiChatService {
     public List<JsonObject> getHistory() {
         return new ArrayList<>(conversationHistory);
     }
+
+    /**
+     * Restore conversation history from saved messages
+     * Used when loading a notebook with existing chat history
+     * @param messages The saved chat messages
+     * @param notesContext Optional notes context to prepend to the first user message
+     */
+    public void restoreHistory(List<Notebook.ChatMessage> messages, String notesContext) {
+        conversationHistory.clear();
+        boolean isFirstUserMessage = true;
+        
+        for (Notebook.ChatMessage msg : messages) {
+            JsonObject content = new JsonObject();
+            content.addProperty("role", msg.getRole().equals("user") ? "user" : "model");
+            JsonArray parts = new JsonArray();
+            JsonObject part = new JsonObject();
+            
+            String messageText = msg.getContent();
+            // For the first user message, add notes context if available
+            if (msg.getRole().equals("user") && isFirstUserMessage && notesContext != null && !notesContext.trim().isEmpty()) {
+                messageText = "Here are my notes:\n\n" + notesContext + "\n\nNow, " + messageText;
+                isFirstUserMessage = false;
+            } else if (msg.getRole().equals("user")) {
+                isFirstUserMessage = false;
+            }
+            
+            part.addProperty("text", messageText);
+            parts.add(part);
+            content.add("parts", parts);
+            conversationHistory.add(content);
+        }
+    }
 }
