@@ -31,6 +31,8 @@ public class DashboardController {
     @FXML
     public void initialize() {
         storageService = new NotebookStorageService();
+        // Initialize dummy notebooks if none exist
+        storageService.initializeDummyNotebooks();
         loadNotebooks();
     }
 
@@ -59,6 +61,7 @@ public class DashboardController {
         
         try {
             List<Notebook> notebooks = storageService.loadAllNotebooks();
+            System.out.println("Loaded " + notebooks.size() + " notebooks");
             
             if (notebooks.isEmpty()) {
                 Label emptyLabel = new Label("No notebooks yet. Create one to get started!");
@@ -67,10 +70,12 @@ public class DashboardController {
                 notebooksContainer.getChildren().add(emptyLabel);
             } else {
                 for (Notebook notebook : notebooks) {
+                    System.out.println("Adding notebook card: " + notebook.getName());
                     notebooksContainer.getChildren().add(createNotebookCard(notebook));
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             showError("Failed to load notebooks: " + e.getMessage());
         }
     }
@@ -81,6 +86,10 @@ public class DashboardController {
         card.setPadding(new Insets(20));
         card.setSpacing(16);
         HBox.setHgrow(card, Priority.ALWAYS);
+        
+        // Add hover effect
+        card.setOnMouseEntered(e -> card.setStyle("-fx-background-color: #1a1a1a; -fx-border-color: #404040; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand;"));
+        card.setOnMouseExited(e -> card.setStyle("-fx-background-color: #141414; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand;"));
 
         VBox content = new VBox();
         content.setSpacing(8);
@@ -103,8 +112,10 @@ public class DashboardController {
 
         card.getChildren().addAll(content, deleteButton);
 
+        // Make the entire card clickable (except delete button)
         card.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 1 && !e.isConsumed()) {
+            // Only open if clicking on the card itself, not on the delete button
+            if (e.getTarget() != deleteButton && e.getTarget() != deleteButton.getGraphic()) {
                 openNotebook(notebook);
             }
         });
@@ -114,16 +125,23 @@ public class DashboardController {
 
     private void openNotebook(Notebook notebook) {
         try {
+            System.out.println("Opening notebook: " + notebook.getName());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("notebook-view.fxml"));
             Parent root = loader.load();
             NotebookController controller = loader.getController();
-            controller.setNotebook(notebook);
+            if (controller != null) {
+                controller.setNotebook(notebook);
+            } else {
+                System.err.println("Controller is null!");
+            }
 
             Stage stage = (Stage) createNotebookButton.getScene().getWindow();
             Scene scene = new Scene(root, 1400, 900);
+            scene.setFill(javafx.scene.paint.Color.BLACK);
             stage.setScene(scene);
             stage.setTitle("LECTURLY - " + notebook.getName());
         } catch (IOException e) {
+            e.printStackTrace();
             showError("Failed to open notebook: " + e.getMessage());
         }
     }

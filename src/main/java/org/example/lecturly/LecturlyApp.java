@@ -28,6 +28,9 @@ public class LecturlyApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(LecturlyApp.class.getResource("dashboard-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         
+        // Set scene background to black
+        scene.setFill(javafx.scene.paint.Color.BLACK);
+        
         // Apply Netflix theme styles (if CSS file exists)
         try {
             var cssUrl = getClass().getResource("netflix-theme.css");

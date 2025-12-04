@@ -40,7 +40,7 @@
                        vbarPolicy="ALWAYS" 
                        hbarPolicy="NEVER" 
                        VBox.vgrow="ALWAYS">
-                <VBox fx:id="notebooksContainer" spacing="16" style="-fx-padding: 16;">
+                <VBox fx:id="notebooksContainer" spacing="16" style="-fx-padding: 16; -fx-background-color: #000000;">
                     <!-- Notebooks will be added here dynamically -->
                 </VBox>
             </ScrollPane>

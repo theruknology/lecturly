@@ -52,7 +52,7 @@
                     
                     <HBox spacing="8" style="-fx-padding: 12; -fx-background-color: #0a0a0a; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6;">
                         <TextField fx:id="apiKeyField" promptText="Enter Gemini API key" 
-                                   style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-prompt-text-fill: #666666; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-family: 'Barlow Condensed';" 
+                                   style="-fx-padding: 10; -fx-font-size: 12; -fx-text-fill: #ffffff; -fx-control-inner-background: #1a1a1a; -fx-prompt-text-fill: #666666; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 4; -fx-background-radius: 4; -fx-font-family: 'Barlow Condensed'; -fx-focus-color: #333333; -fx-faint-focus-color: #333333;" 
                                    HBox.hgrow="ALWAYS"/>
                         <Button fx:id="connectButton" text="Connect" 
                                 style="-fx-padding: 10 20 10 20; -fx-font-size: 12; -fx-font-weight: bold; -fx-background-color: #e50914; -fx-text-fill: #ffffff; -fx-cursor: hand; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';"
@@ -80,7 +80,7 @@
                 <VBox spacing="12" VBox.vgrow="ALWAYS">
                     <Label text="Notes" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ffffff; -fx-font-family: 'Barlow Condensed';"/>
                     <TextArea fx:id="notesArea" wrapText="true" 
-                              style="-fx-padding: 16; -fx-font-size: 13; -fx-text-fill: #e6e6e6; -fx-control-inner-background: #141414; -fx-text-inner-color: #e6e6e6; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed';" 
+                              style="-fx-padding: 16; -fx-font-size: 13; -fx-text-fill: #e6e6e6; -fx-control-inner-background: #141414; -fx-text-inner-color: #e6e6e6; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-font-family: 'Barlow Condensed'; -fx-focus-color: #333333; -fx-faint-focus-color: #333333;" 
                               VBox.vgrow="ALWAYS" editable="true"/>
                 </VBox>
             </VBox>
@@ -105,7 +105,7 @@
                            vbarPolicy="ALWAYS" 
                            hbarPolicy="NEVER" 
                            VBox.vgrow="ALWAYS">
-                    <VBox fx:id="messagesContainer" spacing="16" style="-fx-padding: 16;">
+                    <VBox fx:id="messagesContainer" spacing="16" style="-fx-padding: 16; -fx-background-color: #0a0a0a;">
                         <!-- Messages will be added here -->
                     </VBox>
                 </ScrollPane>
@@ -113,7 +113,7 @@
                 <!-- Input Area -->
                 <VBox spacing="8">
                     <TextArea fx:id="inputArea" wrapText="true" 
-                              style="-fx-padding: 12; -fx-font-size: 13; -fx-font-family: 'Barlow Condensed'; -fx-text-fill: #ffffff; -fx-control-inner-background: #141414; -fx-text-inner-color: #ffffff; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-prompt-text-fill: #666666;" 
+                              style="-fx-padding: 12; -fx-font-size: 13; -fx-font-family: 'Barlow Condensed'; -fx-text-fill: #ffffff; -fx-control-inner-background: #141414; -fx-text-inner-color: #ffffff; -fx-border-color: #333333; -fx-border-width: 1; -fx-border-radius: 6; -fx-background-radius: 6; -fx-prompt-text-fill: #666666; -fx-focus-color: #333333; -fx-faint-focus-color: #333333;" 
                               promptText="Type your message... (Shift+Enter for new line)" prefRowCount="3"/>
                     <HBox spacing="8" alignment="CENTER_RIGHT">
                         <Button fx:id="clearButton" text="Clear" 

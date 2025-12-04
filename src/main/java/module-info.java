@@ -6,6 +6,6 @@ module org.example.lecturly {
     requires com.google.gson;
     requires java.net.http;
 
-    opens org.example.lecturly to javafx.fxml;
+    opens org.example.lecturly to javafx.fxml, com.google.gson;
     exports org.example.lecturly;
 }

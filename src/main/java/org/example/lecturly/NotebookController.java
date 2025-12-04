@@ -67,6 +67,34 @@ public class NotebookController {
         sendButton.setDisable(true);
         clearButton.setDisable(true);
         
+        // Enable chat when API key is entered
+        apiKeyField.textProperty().addListener((obs, oldVal, newVal) -> {
+            String apiKey = newVal != null ? newVal.trim() : "";
+            if (!apiKey.isEmpty()) {
+                // Enable chat buttons if API key is present
+                sendButton.setDisable(false);
+                clearButton.setDisable(false);
+                
+                // Update notes context if chat service exists
+                if (chatService != null) {
+                    String notes = notesArea.getText().trim();
+                    chatService.setNotesContext(notes);
+                }
+            } else {
+                // Disable if API key is cleared
+                sendButton.setDisable(true);
+                clearButton.setDisable(true);
+            }
+        });
+        
+        // Update notes context when notes change
+        notesArea.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (chatService != null) {
+                String notes = newVal != null ? newVal.trim() : "";
+                chatService.setNotesContext(notes);
+            }
+        });
+        
         // Auto-scroll chat to bottom
         messagesContainer.heightProperty().addListener((obs, oldVal, newVal) -> {
             messagesScrollPane.setVvalue(1.0);
@@ -88,18 +116,26 @@ public class NotebookController {
             addSystemMessage("Chat with your notes! Ask questions about the content.");
         }
         
-        // If API key is available and chat history exists, initialize chat service
+        // If API key is available, enable chat buttons
         String apiKey = apiKeyField.getText().trim();
-        if (!apiKey.isEmpty() && !notebook.getChatHistory().isEmpty()) {
-            try {
-                chatService = new GeminiChatService(apiKey);
-                // Restore chat history to service with notes context
-                String notes = notesArea.getText().trim();
-                chatService.restoreHistory(notebook.getChatHistory(), notes);
-                sendButton.setDisable(false);
-                clearButton.setDisable(false);
-            } catch (Exception e) {
-                System.err.println("Failed to restore chat history: " + e.getMessage());
+        if (!apiKey.isEmpty()) {
+            sendButton.setDisable(false);
+            clearButton.setDisable(false);
+            
+            // If chat history exists, restore it
+            if (!notebook.getChatHistory().isEmpty()) {
+                try {
+                    chatService = new GeminiChatService(apiKey);
+                    // Set notes context
+                    String notes = notesArea.getText().trim();
+                    if (!notes.isEmpty()) {
+                        chatService.setNotesContext(notes);
+                    }
+                    // Restore chat history (without notes prefix, as it's in system instruction)
+                    chatService.restoreHistory(notebook.getChatHistory(), null);
+                } catch (Exception e) {
+                    System.err.println("Failed to restore chat history: " + e.getMessage());
+                }
             }
         }
     }
@@ -113,6 +149,7 @@ public class NotebookController {
             
             Stage stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(root, 1200, 800);
+            scene.setFill(javafx.scene.paint.Color.BLACK);
             stage.setScene(scene);
             stage.setTitle("LECTURLY - Notebooks");
         } catch (IOException e) {
@@ -228,12 +265,21 @@ public class NotebookController {
         if (chatService == null) {
             try {
                 chatService = new GeminiChatService(apiKey);
+                // Set notes context if available
+                String notesContext = notesArea.getText().trim();
+                if (!notesContext.isEmpty()) {
+                    chatService.setNotesContext(notesContext);
+                }
                 sendButton.setDisable(false);
                 clearButton.setDisable(false);
             } catch (Exception e) {
                 showError("Failed to initialize chat: " + e.getMessage());
                 return;
             }
+        } else {
+            // Update notes context if it changed
+            String notesContext = notesArea.getText().trim();
+            chatService.setNotesContext(notesContext);
         }
 
         String message = inputArea.getText().trim();
@@ -245,14 +291,8 @@ public class NotebookController {
         sendButton.setDisable(true);
         addMessageToChat(true, message);
         
-        // Add notes context to the message if notes exist
-        String notesContext = notesArea.getText().trim();
-        String fullMessage;
-        if (notesContext.isEmpty()) {
-            fullMessage = message;
-        } else {
-            fullMessage = "Here are my notes:\n\n" + notesContext + "\n\nNow, " + message;
-        }
+        // Use the message as-is, notes context is handled by the service
+        String fullMessage = message;
 
         executorService.execute(() -> {
             try {

@@ -16,6 +16,7 @@ public class GeminiChatService {
     private HttpClient httpClient;
     private Gson gson;
     private List<JsonObject> conversationHistory;
+    private String notesContext;
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
     public GeminiChatService(String apiKey) {
@@ -23,10 +24,18 @@ public class GeminiChatService {
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new Gson();
         this.conversationHistory = new ArrayList<>();
+        this.notesContext = null;
+    }
+    
+    /**
+     * Set notes context that will be included in all API requests
+     */
+    public void setNotesContext(String notes) {
+        this.notesContext = notes != null && !notes.trim().isEmpty() ? notes.trim() : null;
     }
 
     public String chat(String userMessage) throws Exception {
-        // Add user message to history
+        // Add user message to history (without notes context prefix)
         JsonObject userContent = new JsonObject();
         userContent.addProperty("role", "user");
         JsonArray userParts = new JsonArray();
@@ -39,6 +48,18 @@ public class GeminiChatService {
         try {
             // Create request body
             JsonObject requestBody = new JsonObject();
+            
+            // Add system instruction with notes context if available
+            if (notesContext != null && !notesContext.isEmpty()) {
+                JsonObject systemInstruction = new JsonObject();
+                JsonArray systemParts = new JsonArray();
+                JsonObject systemPart = new JsonObject();
+                systemPart.addProperty("text", "You are a helpful assistant. The user has provided the following notes for context:\n\n" + notesContext + "\n\nPlease use these notes to provide accurate and relevant answers to their questions.");
+                systemParts.add(systemPart);
+                systemInstruction.add("parts", systemParts);
+                requestBody.add("systemInstruction", systemInstruction);
+            }
+            
             JsonArray contentsArray = new JsonArray();
             for (JsonObject content : conversationHistory) {
                 contentsArray.add(content);
@@ -122,7 +143,6 @@ public class GeminiChatService {
      */
     public void restoreHistory(List<Notebook.ChatMessage> messages, String notesContext) {
         conversationHistory.clear();
-        boolean isFirstUserMessage = true;
         
         for (Notebook.ChatMessage msg : messages) {
             JsonObject content = new JsonObject();
@@ -130,19 +150,18 @@ public class GeminiChatService {
             JsonArray parts = new JsonArray();
             JsonObject part = new JsonObject();
             
+            // Use the message as-is, notes context is handled via system instruction
             String messageText = msg.getContent();
-            // For the first user message, add notes context if available
-            if (msg.getRole().equals("user") && isFirstUserMessage && notesContext != null && !notesContext.trim().isEmpty()) {
-                messageText = "Here are my notes:\n\n" + notesContext + "\n\nNow, " + messageText;
-                isFirstUserMessage = false;
-            } else if (msg.getRole().equals("user")) {
-                isFirstUserMessage = false;
-            }
             
             part.addProperty("text", messageText);
             parts.add(part);
             content.add("parts", parts);
             conversationHistory.add(content);
+        }
+        
+        // Set notes context if provided
+        if (notesContext != null && !notesContext.trim().isEmpty()) {
+            setNotesContext(notesContext);
         }
     }
 }
