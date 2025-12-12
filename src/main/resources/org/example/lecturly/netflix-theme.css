@@ -6,34 +6,7 @@
     -fx-base: #000000;
     -fx-control-inner-background: #141414;
     -fx-control-inner-background-alt: #1a1a1a;
-}
-
-/* Override all default backgrounds */
-* {
-    -fx-background-color: #000000;
-}
-
-/* Base containers */
-.vbox, .hbox, .border-pane, .stack-pane, .split-pane, .grid-pane, .flow-pane, .tile-pane {
-    -fx-background-color: #000000;
-}
-
-/* Region default background */
-.region {
-    -fx-background-color: transparent;
-}
-
-/* Buttons */
-.button {
-    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
-    -fx-cursor: hand;
-    -fx-background-color: #e50914;
-    -fx-text-fill: #ffffff;
-}
-
-.button:hover {
-    -fx-opacity: 0.9;
-    -fx-background-color: #f40612;
+    background-color: #2D2D30;
 }
 
 .button:pressed {
@@ -46,17 +19,6 @@
 }
 
 /* Text Fields - Comprehensive styling */
-.text-field {
-    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
-    -fx-border-color: #333333;
-    -fx-background-color: #1a1a1a;
-    -fx-text-fill: #ffffff;
-    -fx-prompt-text-fill: #666666;
-    -fx-focus-color: #333333;
-    -fx-faint-focus-color: #333333;
-    -fx-highlight-fill: #e50914;
-    -fx-highlight-text-fill: #ffffff;
-}
 
 .text-field:focused {
     -fx-border-color: #333333;
@@ -70,6 +32,7 @@
 }
 
 /* TextArea - Comprehensive styling */
+
 .text-area {
     -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
     -fx-border-color: #333333;
@@ -81,7 +44,6 @@
     -fx-highlight-fill: #e50914;
     -fx-highlight-text-fill: #ffffff;
 }
-
 .text-area:focused {
     -fx-border-color: #333333;
     -fx-background-color: #141414;
@@ -106,18 +68,18 @@
 }
 
 /* Labels */
+
 .label {
     -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
     -fx-text-fill: #ffffff;
 }
-
 /* Scroll Panes */
+
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
     -fx-control-inner-background: #000000;
 }
-
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
@@ -178,10 +140,10 @@
 }
 
 /* Split Pane */
+
 .split-pane {
     -fx-background-color: #000000;
 }
-
 .split-pane-divider {
     -fx-background-color: #1a1a1a;
     -fx-pref-width: 2px;
@@ -192,15 +154,12 @@
 }
 
 /* Progress Indicator */
+
 .progress-indicator {
     -fx-progress-color: #e50914;
 }
-
-.progress-indicator .indicator {
-    -fx-background-color: #141414;
-}
-
 /* Alert Dialogs */
+
 .dialog-pane {
     -fx-background-color: #141414;
     -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
@@ -209,7 +168,6 @@
 .dialog-pane .header-panel {
     -fx-background-color: #141414;
 }
-
 .dialog-pane .header-panel .label {
     -fx-text-fill: #ffffff;
 }
@@ -237,11 +195,50 @@
     -fx-background-color: #141414;
 }
 
+/* Override all default backgrounds */
+
+* {
+    -fx-background-color: #000000;
+}
+/* Base containers */
+
+.vbox, .hbox, .border-pane, .stack-pane, .split-pane, .grid-pane, .flow-pane, .tile-pane {
+    -fx-background-color: #000000;
+}
+/* Region default background */
+
+.region {
+    -fx-background-color: transparent;
+}
+/* Buttons */
+
+.button {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+    -fx-cursor: hand;
+    -fx-background-color: #e50914;
+    -fx-text-fill: #ffffff;
+}
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-background-color: #f40612;
+}
+
+.text-field {
+    -fx-font-family: 'Barlow Condensed', 'Segoe UI', sans-serif;
+    -fx-border-color: #333333;
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #666666;
+    -fx-focus-color: #333333;
+    -fx-faint-focus-color: #333333;
+    -fx-highlight-fill: #e50914;
+    -fx-highlight-text-fill: #ffffff;
+}
 /* Text Input Dialog */
+
 .text-input-dialog .content {
     -fx-background-color: #141414;
 }
-
 .text-input-dialog .text-field {
     -fx-background-color: #1a1a1a;
     -fx-text-fill: #ffffff;
@@ -249,17 +246,22 @@
 }
 
 /* Context Menu */
+
 .context-menu {
     -fx-background-color: #141414;
     -fx-border-color: #333333;
 }
-
 .context-menu .menu-item {
     -fx-background-color: #141414;
 }
 
 .context-menu .menu-item:hover {
     -fx-background-color: #1a1a1a;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #1a1a1a;
+
 }
 
 .context-menu .menu-item .label {
@@ -391,6 +393,10 @@
     -fx-text-fill: #ffffff;
 }
 
+.progress-indicator .indicator {
+    -fx-background-color: #141414;
+}
+
 .table-view .table-cell {
     -fx-text-fill: #ffffff;
     -fx-background-color: #141414;
@@ -398,8 +404,4 @@
 
 .table-row-cell:selected {
     -fx-background-color: #e50914;
-}
-
-.table-row-cell:hover {
-    -fx-background-color: #1a1a1a;
 }
